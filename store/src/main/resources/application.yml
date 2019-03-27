@@ -1,0 +1,24 @@
+server:
+  port: 8990
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+
+
+store:
+  mysql:
+    datasource:
+      url: "jdbc:mysql://localhost:3306/store?characterEncoding=utf8&useSSL=false"
+      driver: "com.mysql.cj.jdbc.Driver"
+      username: "syoka"
+      password: "{cipher}7c59bf090ffe6dfa825b9646e127a9a4b497632ece834a708cc145b4502ef8a3"
+      withInitialization: "false"
+  jpa:
+    show:
+      sql: "true"
+    format_sql: "true"
+    ddl:
+      auto: "update"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"

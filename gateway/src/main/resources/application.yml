@@ -1,0 +1,21 @@
+server:
+  port: 2222
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+
+zuul:
+  prefix: /api
+  routes:
+    order:
+      path: /order/**
+      serviceId: order
+    store:
+      path: /store/**
+      serviceId: store
+

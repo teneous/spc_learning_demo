@@ -1,0 +1,14 @@
+spring:
+  application:
+    name:
+      configuration
+  cloud:
+    config:
+      server:
+        encrypt.enabled: false
+        git:
+          uri: https://github.com/teneous/configuration
+          searchPaths: configserver,gateway,order,store
+      label: master
+encrypt:
+  key: s19y25o15k11a1

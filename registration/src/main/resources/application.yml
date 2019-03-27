@@ -1,0 +1,25 @@
+server:
+  port: 1111
+management:
+    server:
+      servlet:
+        context-path: /registration
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 4000
+    renewal-percent-threshold: 0.5
+    enable-self-preservation: false
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+  serviceUrl:
+    defaultZone: http://localhost:1111/eureka/
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 40
+    lease-renewal-interval-in-seconds: 15
+    metadata-map:
+      zone: Chengdu
+    status-page-url: ${management.server.servlet.context-path}/info
+    health-check-url: ${management.server.servlet.context-path}/health
+    home-page-url: ${management.server.servlet.context-path}
