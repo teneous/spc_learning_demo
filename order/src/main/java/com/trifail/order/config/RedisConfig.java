@@ -51,7 +51,7 @@ public class RedisConfig {//extends CachingConfigurerSupport {
     public RedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(extraSrouceConfig.redisMasterIp);
         JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling().build();
-        configuration.setPassword(extraSrouceConfig.password);
+        configuration.setPassword(extraSrouceConfig.redisPassword);
         return new JedisConnectionFactory(configuration, jedisClientConfiguration);
     }
 

@@ -21,23 +21,15 @@ import java.util.List;
 public class OrderResource {
 
     private final IOrderService orderService;
-    private final RedisRepository redisRepository;
 
     @Autowired
-    public OrderResource(IOrderService orderService, RedisRepository redisRepository) {
+    public OrderResource(IOrderService orderService) {
         this.orderService = orderService;
-        this.redisRepository = redisRepository;
     }
 
     @GetMapping("/customer/{cid}")
     public List<CustomerOrderInfo> getCustomerOrders(@PathVariable Long cid){
-        String a = redisRepository.get("a");
         return orderService.getCustomerOrderList(cid);
     }
 
-//    @GetMapping("/a/")
-//    public void aaaa(){
-//        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://gateway/hello", String.class);
-//        System.out.println(forEntity);
-//    }
 }

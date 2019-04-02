@@ -1,12 +1,15 @@
 package com.trifail.order.api.vo;
 
+import com.sun.xml.internal.ws.developer.Serialization;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * Created by syoka on 2019/3/12.
  */
-public class CustomerOrderInfo {
+public class CustomerOrderInfo implements Serializable {
 
     private String serioNo;
     private BigDecimal totalMoney;

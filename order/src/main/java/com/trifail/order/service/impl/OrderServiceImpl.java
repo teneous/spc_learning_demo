@@ -2,11 +2,15 @@ package com.trifail.order.service.impl;
 
 import com.trifail.order.api.vo.CustomerOrderInfo;
 import com.trifail.order.api.vo.OrderInfo;
+import com.trifail.order.config.RedisRepository;
 import com.trifail.order.model.Order;
 import com.trifail.order.repository.IOrderRepository;
 import com.trifail.order.service.IOrderService;
+import com.trifail.order.utils.SerializationUtils;
 import com.trifail.order.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.serializer.support.DeserializingConverter;
+import org.springframework.core.serializer.support.SerializingConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +24,13 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements IOrderService {
 
     private final IOrderRepository orderRepository;
+    private final RedisRepository redisRepository;
+    private final String REDIS_ORDER = "order_of_cus_";
 
     @Autowired
-    public OrderServiceImpl(IOrderRepository orderRepository) {
+    public OrderServiceImpl(IOrderRepository orderRepository, RedisRepository redisRepository) {
         this.orderRepository = orderRepository;
+        this.redisRepository = redisRepository;
     }
 
     @Override
@@ -32,27 +39,25 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-//    @HystrixCommand(fallbackMethod = "getCustomerOrderListFromCache")
     public List<CustomerOrderInfo> getCustomerOrderList(Long cid) {
+        byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(REDIS_ORDER + cid));
+        if (bytes != null) {
+            return (List<CustomerOrderInfo>)SerializationUtils.byteToObject(bytes);
+        }
+        //这里只做一个demo不考虑分页
         List<Order> orderList = orderRepository.findByCustomerId(cid);
         if (orderList.size() > 0) {
-            return orderList.stream().map(order -> {
+            List<CustomerOrderInfo> customerInfo = orderList.stream().map(order -> {
                 CustomerOrderInfo customerOrderInfo = new CustomerOrderInfo();
                 customerOrderInfo.setSerioNo(order.getSerialNo());
                 customerOrderInfo.setTotalMoney(order.getRealPayMoney());
                 customerOrderInfo.setCreateTime(TimeUtils.normalFormatDate(order.getCreateTime()));
                 return customerOrderInfo;
             }).collect(Collectors.toList());
+            redisRepository.setExpire(SerializationUtils.objectToByte(REDIS_ORDER + cid),
+                    SerializationUtils.objectToByte(customerInfo),300);
+            return customerInfo;
         }
         return new ArrayList<>();
     }
-
-//    /**
-//     * 当获取数据失败时,尝试从老的缓存数据中读取
-//     * @param orderInfo
-//     */
-//    @HystrixCommand(fallbackMethod = "log")
-//    private String getCustomerOrderListFromCache(OrderInfo orderInfo) {
-//        return null;
-//    }
 }
