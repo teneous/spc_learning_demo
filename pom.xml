@@ -17,6 +17,7 @@
         <module>registration</module>
         <module>configuration</module>
         <module>order</module>
+        <module>basis</module>
     </modules>
 
     <properties>

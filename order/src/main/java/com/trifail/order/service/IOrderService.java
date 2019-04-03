@@ -1,5 +1,6 @@
 package com.trifail.order.service;
 
+import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.api.vo.CustomerOrderInfo;
 import com.trifail.order.api.vo.OrderInfo;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,6 @@ public interface IOrderService {
      * 创建订单
      * @return 返回订单号
      */
-    List<CustomerOrderInfo> getCustomerOrderList(Long cid);
+    RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(Long cid);
 
 }

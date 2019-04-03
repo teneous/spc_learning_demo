@@ -1,5 +1,6 @@
 package com.trifail.order.service.impl;
 
+import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.api.vo.CustomerOrderInfo;
 import com.trifail.order.api.vo.OrderInfo;
 import com.trifail.order.config.RedisRepository;
@@ -39,10 +40,10 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public List<CustomerOrderInfo> getCustomerOrderList(Long cid) {
+    public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(Long cid) {
         byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(REDIS_ORDER + cid));
         if (bytes != null) {
-            return (List<CustomerOrderInfo>)SerializationUtils.byteToObject(bytes);
+            return new RestResponseVo<>((List<CustomerOrderInfo>)SerializationUtils.byteToObject(bytes));
         }
         //这里只做一个demo不考虑分页
         List<Order> orderList = orderRepository.findByCustomerId(cid);
@@ -56,8 +57,8 @@ public class OrderServiceImpl implements IOrderService {
             }).collect(Collectors.toList());
             redisRepository.setExpire(SerializationUtils.objectToByte(REDIS_ORDER + cid),
                     SerializationUtils.objectToByte(customerInfo),300);
-            return customerInfo;
+            return new RestResponseVo<>(customerInfo);
         }
-        return new ArrayList<>();
+        return new RestResponseVo<>(new ArrayList<>());
     }
 }
