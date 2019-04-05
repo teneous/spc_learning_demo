@@ -1,29 +1,13 @@
 package com.trifail.basis.core;
 
-import org.apache.logging.log4j.util.PropertiesUtil;
-
 public class ErrorCode {
 
-    /*500*/
-    private String status;
-    /*INVALID_ORDER_NO*/
     private String code;
-    /*无效订单*/
-    private String message;
+    private String error_message;
 
-    public ErrorCode(String status, String code, String message) {
-        this.status = status;
+    public ErrorCode(String code, String message) {
         this.code = code;
-
-        this.message = message;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.error_message = message;
     }
 
     public String getCode() {
@@ -34,11 +18,11 @@ public class ErrorCode {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getError_message() {
+        return error_message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setError_message(String error_message) {
+        this.error_message = error_message;
     }
 }

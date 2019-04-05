@@ -1,28 +1,36 @@
 package com.trifail.basis.core;
 
-import com.trifail.basis.util.PropertyUtil;
 import org.springframework.http.HttpStatus;
 
 public class RestResponseVo<T> {
 
+    private String api_version = "1.0";
     private T result;
-    private HttpStatus status_code;
+    private int status_code;
     private ErrorCode error_code;
     private String return_msg;
 
     public RestResponseVo(T result) {
-        this(result,HttpStatus.OK,"success");
+        this(result,HttpStatus.OK.value(),"success");
     }
 
     public RestResponseVo(ErrorCode error_code) {
         this.error_code = error_code;
-//        this.return_msg = PropertyUtil.error_code.getMessage();
+        status_code = HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 
-    public RestResponseVo(T result,HttpStatus status_code, String return_msg) {
+    public RestResponseVo(T result,int status_code, String return_msg) {
         this.result = result;
         this.status_code = status_code;
         this.return_msg = return_msg;
+    }
+
+    public String getApi_version() {
+        return api_version;
+    }
+
+    public void setApi_version(String api_version) {
+        this.api_version = api_version;
     }
 
     public T getResult() {
@@ -33,11 +41,11 @@ public class RestResponseVo<T> {
         this.result = result;
     }
 
-    public HttpStatus getStatus_code() {
+    public int getStatus_code() {
         return status_code;
     }
 
-    public void setStatus_code(HttpStatus status_code) {
+    public void setStatus_code(int status_code) {
         this.status_code = status_code;
     }
 

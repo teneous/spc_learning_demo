@@ -1,4 +1,4 @@
-package com.trifail.order.api.vo;
+package com.trifail.order.databean;
 
 import com.sun.xml.internal.ws.developer.Serialization;
 

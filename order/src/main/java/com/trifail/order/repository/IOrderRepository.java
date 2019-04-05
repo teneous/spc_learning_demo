@@ -13,4 +13,7 @@ import java.util.List;
 public interface IOrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByCustomerId(Long cid);
+
+
+    Order findByserialNo(String serialNo);
 }

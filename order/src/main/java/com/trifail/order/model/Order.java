@@ -28,6 +28,8 @@ public class Order {
     private Long customerId;
     @Column(name = "create_time", nullable = false)
     private LocalDate createTime;
+    @Column(name = "update_time", nullable = false)
+    private LocalDate updateTime;
     /*代付款，待收货，完成，取消*/
     @Column(name = "type", length = 6, nullable = false)
     private Short type;
@@ -66,6 +68,14 @@ public class Order {
 
     public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
+    }
+
+    public LocalDate getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDate updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Short getType() {

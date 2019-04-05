@@ -1,4 +1,4 @@
-package com.trifail.order.api.vo;
+package com.trifail.order.databean;
 
 /**
  * Created by syoka on 2019/3/11.

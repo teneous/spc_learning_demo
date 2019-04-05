@@ -1,9 +1,8 @@
 package com.trifail.order.service;
 
 import com.trifail.basis.core.RestResponseVo;
-import com.trifail.order.api.vo.CustomerOrderInfo;
-import com.trifail.order.api.vo.OrderInfo;
-import org.springframework.stereotype.Service;
+import com.trifail.order.databean.CustomerOrderInfo;
+import com.trifail.order.databean.OrderInfo;
 
 import java.util.List;
 
@@ -24,5 +23,11 @@ public interface IOrderService {
      * @return 返回订单号
      */
     RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(Long cid);
+
+
+    /**
+     * 订单撤销,仅仅是尚未发货的订单可撤销
+     */
+    RestResponseVo rollback(String serialno);
 
 }
