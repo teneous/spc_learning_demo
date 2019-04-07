@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>2.0.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -19,8 +19,6 @@
         <module>configuration</module>
         <module>order</module>
         <module>basis</module>
-        <module>common-api</module>
-        <module>service_api</module>
         <module>service-api</module>
     </modules>
 
@@ -28,7 +26,6 @@
         <spring.cloud.version>Finchley.SR2</spring.cloud.version>
         <jedis.version>2.9.1</jedis.version>
         <mysql.connector.version>8.0.13</mysql.connector.version>
-        <!--<mysql.connector.version>5.1</mysql.connector.version>-->
     </properties>
 
     <dependencyManagement>

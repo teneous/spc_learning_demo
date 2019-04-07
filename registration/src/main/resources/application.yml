@@ -12,8 +12,8 @@ eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
-  serviceUrl:
-    defaultZone: http://localhost:1111/eureka/
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
   instance:
     prefer-ip-address: true
     lease-expiration-duration-in-seconds: 40

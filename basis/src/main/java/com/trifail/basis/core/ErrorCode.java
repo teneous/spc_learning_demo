@@ -1,5 +1,6 @@
 package com.trifail.basis.core;
 
+
 public class ErrorCode {
 
     private String code;

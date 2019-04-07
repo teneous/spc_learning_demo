@@ -28,8 +28,8 @@ public class Order {
     private Long customerId;
     @Column(name = "create_time", nullable = false)
     private LocalDate createTime;
-    @Column(name = "update_time", nullable = false)
-    private LocalDate updateTime;
+    @Column(name = "update_time")
+    private LocalDate updateTime = LocalDate.now();
     /*代付款，待收货，完成，取消*/
     @Column(name = "type", length = 6, nullable = false)
     private Short type;

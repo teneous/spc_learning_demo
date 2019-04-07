@@ -1,7 +1,9 @@
 package com.trifail.basis.core;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class RestResponseVo<T> {
 
     private String api_version = "1.0";

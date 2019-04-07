@@ -1,6 +1,7 @@
 package com.trifail.order.resource;
 
 import com.trifail.basis.core.RestResponseVo;
+import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by syoka on 2019/3/12.
  */
 @RestController
-@RequestMapping("/v1/order")
+@RequestMapping("/order/v1")
 public class OrderResource{
 
     private final IOrderService orderService;
@@ -41,8 +42,9 @@ public class OrderResource{
      */
     @DeleteMapping("/rollback/{serialno}")
     public RestResponseVo rollbackOrder(@PathVariable String serialno){
-        orderService.rollback(serialno);
-        return null;
+        return new RestResponseVo(OrderErrorcode.ORDER_NOT_EXISTS);
+//        orderService.rollback(serialno);
+//        return null;
    }
 
 }

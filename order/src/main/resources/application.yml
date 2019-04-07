@@ -6,5 +6,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:1111/eureka/
 
-
+spring:
+  messages:
+    basename: msg/order
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -51,7 +52,7 @@ public class RedisConfig {//extends CachingConfigurerSupport {
     public RedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(extraSrouceConfig.redisMasterIp);
         JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling().build();
-        configuration.setPassword(extraSrouceConfig.redisPassword);
+        configuration.setPassword(RedisPassword.of(extraSrouceConfig.redisPassword));
         return new JedisConnectionFactory(configuration, jedisClientConfiguration);
     }
 
