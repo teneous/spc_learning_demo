@@ -20,7 +20,7 @@ public class DataSourceConfig {
                 .url("jdbc:mysql://localhost:3306/oauth2?characterEncoding=utf8&useSSL=false")
                 .driverClassName("com.mysql.cj.jdbc.Driver")
                 .username("syoka")
-                .password("123456")
+                .password("syoka")
                 .build();
     }
 

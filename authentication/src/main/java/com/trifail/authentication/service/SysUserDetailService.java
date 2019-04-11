@@ -22,7 +22,7 @@ public class SysUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<SysUser> optional = sysUserRepository.findByUsername(username);
         return optional.map(ele -> new User(ele.getUsername(),ele.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_USER")))
+                    AuthorityUtils.createAuthorityList("ADMIN")))
                 .orElseThrow(() -> new UsernameNotFoundException("Could not find " + username));
     }
 }
