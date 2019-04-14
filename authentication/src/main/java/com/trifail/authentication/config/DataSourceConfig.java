@@ -35,6 +35,7 @@ public class DataSourceConfig {
         dsInitializer.setDataSource(dataSource());
         ResourceDatabasePopulator dbPopulator = new ResourceDatabasePopulator();
         dbPopulator.addScript(new ClassPathResource("schema.sql"));
+        dbPopulator.addScript(new ClassPathResource("data.sql"));
         dsInitializer.setDatabasePopulator(dbPopulator);
         dsInitializer.setEnabled(true);
         return dsInitializer;

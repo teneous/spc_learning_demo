@@ -10,3 +10,8 @@ spring:
   messages:
     basename: msg/order
 
+##根据此方法回调令牌是否有效
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9999/auth/user
