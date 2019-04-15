@@ -1,6 +1,6 @@
-package com.trifail.gateway.filter;
+package com.trifail.gateway.config;
 
-import com.trifail.gateway.filter.access.TokenValidFilter;
+import com.trifail.gateway.filter.TokenValidFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

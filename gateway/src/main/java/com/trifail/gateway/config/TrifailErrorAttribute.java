@@ -6,6 +6,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Map;
 
+/**
+ * springboot
+ */
 @Component
 public class TrifailErrorAttribute extends DefaultErrorAttributes {
 

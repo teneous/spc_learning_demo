@@ -1,8 +1,8 @@
-package com.trifail.gateway.filter.access;
+package com.trifail.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.trifail.gateway.filter.FilterUtils;
+import com.trifail.gateway.utils.FilterUtils;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;

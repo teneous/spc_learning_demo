@@ -38,6 +38,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(webSecurityConfig.authenticationManager())
                 .userDetailsService(webSecurityConfig.userDetailsService())
-                .tokenStore(dataSourceConfig.tokenStore());
+                .tokenStore(dataSourceConfig.tokenStore()).accessTokenConverter();
     }
 }
