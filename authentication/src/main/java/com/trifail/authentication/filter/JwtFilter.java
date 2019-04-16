@@ -9,12 +9,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.SignatureException;
 
 public class JwtFilter extends GenericFilterBean {
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
@@ -24,15 +25,11 @@ public class JwtFilter extends GenericFilterBean {
         }
 
         final String token = authHeader.substring(7);
-        try {
-           Jwts.parser().setSigningKey("").parseClaimsJws(token).getBody();
+        Jwts.parser().setSigningKey("").parseClaimsJws(token).getBody();
 
-            // Add the claim to request header
-            request.setAttribute("claims", claims);
-        } catch (final SignatureException e) {
-            throw new ServletException("Invalid token");
-        }
+        // Add the claim to request header
+//            request.setAttribute("claims", claims);
 
-        chain.doFilter(req, res);
+        filterChain.doFilter(req, res);
     }
 }

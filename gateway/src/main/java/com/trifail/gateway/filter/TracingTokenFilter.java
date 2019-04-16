@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TokenTracingFilter extends ZuulFilter {
+public class TracingTokenFilter extends ZuulFilter {
 
     @Autowired
     private FilterUtils filterUtils;
@@ -53,7 +53,7 @@ public class TokenTracingFilter extends ZuulFilter {
                 Header header = Jwts.parser()
                         .setSigningKey(signingKey.getBytes())
                         .parseClaimsJwt(jwtToken).getHeader();
-                clientInfo = body.get("client_info", ClientInfo.class);
+                clientInfo = body.get("email", ClientInfo.class);
                 return clientInfo;
             }
         }
