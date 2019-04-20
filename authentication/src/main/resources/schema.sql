@@ -60,7 +60,7 @@ create index token_id_index on oauth_refresh_token (token_id);
 create index code_index on oauth_code (code);
 
 
-drop table  sys_user;
+Drop table  if exists sys_user;
 create table sys_user
 (
   id       bigint auto_increment

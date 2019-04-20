@@ -1,14 +1,11 @@
 package com.trifail.authentication.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-
 import java.util.Arrays;
-
 
 /**
  * 认证
@@ -16,18 +13,18 @@ import java.util.Arrays;
 @Configuration
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private DataSourceConfig dataSourceConfig;
-    @Autowired
-    private JWTTokenStoreConfig jwtTokenStoreConfig;
-    @Autowired
-    private WebSecurityConfig webSecurityConfig;
+    private final DataSourceConfig dataSourceConfig;
+    private final JWTTokenStoreConfig jwtTokenStoreConfig;
+    private final WebSecurityConfig webSecurityConfig;
+
+    public OAuth2AuthorizationConfig(DataSourceConfig dataSourceConfig, JWTTokenStoreConfig jwtTokenStoreConfig, WebSecurityConfig webSecurityConfig) {
+        this.dataSourceConfig = dataSourceConfig;
+        this.jwtTokenStoreConfig = jwtTokenStoreConfig;
+        this.webSecurityConfig = webSecurityConfig;
+    }
 
     /**
-     * 用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化，
-     * 你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。
-     * @param clients
-     * @throws Exception
+     * 用来配置客户端详情服务（ClientDetailsService）
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -42,14 +39,15 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        enhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenStoreConfig.tokenEnhancer(),
+        enhancerChain.setTokenEnhancers(Arrays.asList(
+//                jwtTokenStoreConfig.tokenEnhancer(),
                 jwtTokenStoreConfig.jwtAccessTokenConverter()));
 
         endpoints.authenticationManager(webSecurityConfig.authenticationManager())
                 .userDetailsService(webSecurityConfig.userDetailsService())
-//                .tokenStore(dataSourceConfig.tokenStore())
                 .tokenStore(jwtTokenStoreConfig.tokenStore())
-                .tokenEnhancer(jwtTokenStoreConfig.tokenEnhancer())
+//                .tokenEnhancer(jwtTokenStoreConfig.tokenEnhancer())
                 .accessTokenConverter(jwtTokenStoreConfig.jwtAccessTokenConverter());
     }
+
 }

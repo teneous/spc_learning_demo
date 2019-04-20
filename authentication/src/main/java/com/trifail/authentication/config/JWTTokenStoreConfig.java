@@ -33,8 +33,8 @@ public class JWTTokenStoreConfig{
         return tokenServices;
     }
 
-    @Bean
-    public TokenEnhancer tokenEnhancer(){
-        return new JwtTokenEnhancer();
-    }
+//    @Bean
+//    public TokenEnhancer tokenEnhancer(){
+//        return new JwtTokenEnhancer();
+//    }
 }
