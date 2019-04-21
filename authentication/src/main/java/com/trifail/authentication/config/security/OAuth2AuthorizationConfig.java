@@ -1,5 +1,7 @@
-package com.trifail.authentication.config;
+package com.trifail.authentication.config.security;
 
+import com.trifail.authentication.config.database.DataSourceConfig;
+import com.trifail.authentication.config.jwt.JwtTokenConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -14,12 +16,12 @@ import java.util.Arrays;
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     private final DataSourceConfig dataSourceConfig;
-    private final JWTTokenStoreConfig jwtTokenStoreConfig;
+    private final JwtTokenConfig jwtTokenConfig;
     private final WebSecurityConfig webSecurityConfig;
 
-    public OAuth2AuthorizationConfig(DataSourceConfig dataSourceConfig, JWTTokenStoreConfig jwtTokenStoreConfig, WebSecurityConfig webSecurityConfig) {
+    public OAuth2AuthorizationConfig(DataSourceConfig dataSourceConfig, JwtTokenConfig jwtTokenConfig, WebSecurityConfig webSecurityConfig) {
         this.dataSourceConfig = dataSourceConfig;
-        this.jwtTokenStoreConfig = jwtTokenStoreConfig;
+        this.jwtTokenConfig = jwtTokenConfig;
         this.webSecurityConfig = webSecurityConfig;
     }
 
@@ -34,20 +36,19 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     /**
      * 用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)
      * @param endpoints
-     * @throws Exception
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         enhancerChain.setTokenEnhancers(Arrays.asList(
-//                jwtTokenStoreConfig.tokenEnhancer(),
-                jwtTokenStoreConfig.jwtAccessTokenConverter()));
+                jwtTokenConfig.jwtTokenEnhancer(),
+                jwtTokenConfig.jwtAccessTokenConverter()));
 
         endpoints.authenticationManager(webSecurityConfig.authenticationManager())
                 .userDetailsService(webSecurityConfig.userDetailsService())
-                .tokenStore(jwtTokenStoreConfig.tokenStore())
-//                .tokenEnhancer(jwtTokenStoreConfig.tokenEnhancer())
-                .accessTokenConverter(jwtTokenStoreConfig.jwtAccessTokenConverter());
+                .tokenStore(jwtTokenConfig.tokenStore())
+                .tokenEnhancer(enhancerChain)
+                .accessTokenConverter(jwtTokenConfig.jwtAccessTokenConverter());
     }
 
 }

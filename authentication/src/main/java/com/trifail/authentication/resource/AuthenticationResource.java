@@ -18,10 +18,14 @@ import java.util.Map;
 @RestController
 public class AuthenticationResource {
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SysUserRepository sysUserRepository;
+
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private SysUserRepository sysUserRepository;
+    public AuthenticationResource(BCryptPasswordEncoder bCryptPasswordEncoder, SysUserRepository sysUserRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.sysUserRepository = sysUserRepository;
+    }
 
     @GetMapping(value = "/auth/user",produces = "application/json")
     public Map<String,Object> user(OAuth2Authentication user){

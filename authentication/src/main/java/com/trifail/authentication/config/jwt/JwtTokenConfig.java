@@ -1,5 +1,6 @@
-package com.trifail.authentication.config;
+package com.trifail.authentication.config.jwt;
 
+import com.trifail.basis.vo.JwtConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -10,7 +11,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
-public class JWTTokenStoreConfig{
+public class JwtTokenConfig {
 
     @Bean
     public TokenStore tokenStore(){
@@ -20,7 +21,7 @@ public class JWTTokenStoreConfig{
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
-        tokenConverter.setSigningKey("trifail");
+        tokenConverter.setSigningKey(jwtConfig().signkey);
         return tokenConverter;
     }
 
@@ -33,8 +34,13 @@ public class JWTTokenStoreConfig{
         return tokenServices;
     }
 
-//    @Bean
-//    public TokenEnhancer tokenEnhancer(){
-//        return new JwtTokenEnhancer();
-//    }
+    @Bean
+    public TokenEnhancer jwtTokenEnhancer(){
+        return new JwtTokenEnhancer();
+    }
+
+    @Bean
+    public JwtConfig jwtConfig(){
+        return new JwtConfig();
+    }
 }

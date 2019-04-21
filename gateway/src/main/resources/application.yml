@@ -14,4 +14,5 @@ zuul:
     order: /order/**
 #    order: /order/**
     store: /store/**
+    authentication: /authentication/**
   sensitive-headers: Cookie,Set-Cookie

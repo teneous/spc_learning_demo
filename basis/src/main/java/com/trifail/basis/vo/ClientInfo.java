@@ -1,4 +1,4 @@
-package com.trifail.basis.model;
+package com.trifail.basis.vo;
 
 public class ClientInfo {
 
