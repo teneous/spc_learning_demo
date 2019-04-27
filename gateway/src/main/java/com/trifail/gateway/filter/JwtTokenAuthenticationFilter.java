@@ -37,7 +37,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Claims claims = Jwts.parser()
                         .setSigningKey(jwtConfig.signkey.getBytes())
-                        .parseClaimsJwt(token).getBody();
+                        .parseClaimsJws(token).getBody();
                 String username = claims.getSubject();
                 @SuppressWarnings("unchecked")
                 List<String> authorities = (List<String>) claims.get("authorities");
@@ -47,6 +47,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
                 SecurityContextHolder.clearContext();
+                e.printStackTrace();
             }
             filterChain.doFilter(request, response);
         }

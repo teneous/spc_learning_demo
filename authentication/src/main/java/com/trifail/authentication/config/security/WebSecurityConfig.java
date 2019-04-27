@@ -1,6 +1,6 @@
 package com.trifail.authentication.config.security;
 
-import com.trifail.authentication.filter.JwtUsernameAndPasswordAuthenticationFilter;
+//import com.trifail.authentication.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import com.trifail.authentication.service.SysUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -43,16 +43,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-             .and().addFilterAfter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()),UsernamePasswordAuthenticationFilter.class)
-             .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/oauth/token").permitAll()
-                .anyRequest().authenticated();
-    }
-
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//             .and().addFilterAfter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()),UsernamePasswordAuthenticationFilter.class)
+//             .authorizeRequests()
+//                .antMatchers(HttpMethod.POST,"/oauth/token").permitAll()
+//                .anyRequest().authenticated();
+//    }
+//
 
 
 }
