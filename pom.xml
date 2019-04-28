@@ -18,7 +18,7 @@
         <module>registration</module>
         <module>configuration</module>
         <module>order</module>
-        <module>basis</module>
+        <module>common</module>
         <module>authentication</module>
         <module>gateway</module>
     </modules>
