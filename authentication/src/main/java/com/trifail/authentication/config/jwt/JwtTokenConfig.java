@@ -10,12 +10,19 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+
 @Configuration
 public class JwtTokenConfig {
 
     @Bean
     public TokenStore tokenStore(){
         return new JwtTokenStore(jwtAccessTokenConverter());
+    }
+
+    @Bean
+    @Primary
+    public JwtConfig jwtConfig(){
+        return new JwtConfig();
     }
 
     @Bean
@@ -39,8 +46,5 @@ public class JwtTokenConfig {
         return new JwtTokenEnhancer();
     }
 
-    @Bean
-    public JwtConfig jwtConfig(){
-        return new JwtConfig();
-    }
+
 }
