@@ -1,6 +1,6 @@
 package com.trifail.authentication.config.jwt;
 
-import com.trifail.basis.vo.JwtConfig;
+import com.trifail.basis.common.JwtConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

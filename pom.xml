@@ -19,7 +19,8 @@
         <module>configuration</module>
         <module>order</module>
         <module>basis</module>
-        <module>service-api</module>
+        <module>authentication</module>
+        <module>gateway</module>
     </modules>
 
     <properties>
