@@ -1,5 +1,7 @@
 package com.trifail.order.service;
 
+import com.trifail.basis.common.CommonIdVo;
+import com.trifail.basis.core.RestPageRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.databean.OrderInfo;
@@ -20,9 +22,10 @@ public interface IOrderService {
 
     /**
      * 创建订单
+     * create a order
      * @return 返回订单号
      */
-    RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(Long cid);
+    RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(RestPageRequestVo<CommonIdVo> cInfo);
 
 
     /**

@@ -1,15 +1,14 @@
 package com.trifail.order.resource;
 
+import com.trifail.basis.common.CommonIdVo;
+import com.trifail.basis.core.RestPageRequestVo;
+import com.trifail.basis.core.RestRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,12 +28,12 @@ public class OrderResource{
 
     /**
      * 获取某个顾客的订单记录
-     * @param cid
-     * @return
+     * find specific order of the customer
+     * @param cInfo 顾客id信息
      */
-    @GetMapping("/customer/{cid}")
-    public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrders(@PathVariable Long cid){
-        return orderService.getCustomerOrderList(cid);
+    @PostMapping("/customer")
+    public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrders(@RequestBody RestRequestVo<RestPageRequestVo<CommonIdVo>> cInfo){
+        return orderService.getCustomerOrderList(cInfo.getRequest_data());
     }
 
     /**

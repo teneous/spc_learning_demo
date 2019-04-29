@@ -10,5 +10,5 @@ access_token_validity = VALUES(`access_token_validity`),
 additional_information = VALUES(`additional_information`);
 
 
-INSERT INTO sys_user (id, username, password,email)
+INSERT INTO sys_user (common_id, username, password,email)
  VALUES (1, 'syoka', '$2a$10$HkkTyrtT52ZQf5FsrX4p4OF4Yhp52TZbLeFqmTk/P5r9Gbz.WzsNO','kevinto@foxmail.com');

@@ -63,7 +63,7 @@ create index code_index on oauth_code (code);
 Drop table  if exists sys_user;
 create table sys_user
 (
-  id       bigint auto_increment
+  common_id       bigint auto_increment
     primary key,
   username varchar(20) null,
   password varchar(60) null,
