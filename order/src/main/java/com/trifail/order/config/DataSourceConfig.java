@@ -70,10 +70,8 @@ public class DataSourceConfig {
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", extraSrouceConfig.ddlAuto);
         jpaProperties.put("hibernate.show-sql", extraSrouceConfig.showSql);
-//        jpaProperties.put("hibernate.dialect", extraSrouceConfig.dialect);
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        jpaProperties.put("hibernate.dialect", extraSrouceConfig.dialect);
         jpaProperties.put("hibernate.format_sql", extraSrouceConfig.formatable);
-//        jpaProperties.put("hibernate.schema_update.unique_constraint_strategy", extraSrouceConfig.uniqueConstraintStrategy);
         factory.setJpaProperties(jpaProperties);
         return factory;
     }

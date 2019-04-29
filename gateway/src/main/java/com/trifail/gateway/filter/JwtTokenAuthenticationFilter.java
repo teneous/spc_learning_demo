@@ -1,6 +1,6 @@
 package com.trifail.gateway.filter;
 
-import com.trifail.basis.common.JwtConfig;
+import com.trifail.gateway.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

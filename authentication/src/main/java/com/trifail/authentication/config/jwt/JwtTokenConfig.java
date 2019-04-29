@@ -1,6 +1,6 @@
 package com.trifail.authentication.config.jwt;
 
-import com.trifail.basis.common.JwtConfig;
+import com.trifail.authentication.config.database.JwtConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -20,7 +20,6 @@ public class JwtTokenConfig {
     }
 
     @Bean
-    @Primary
     public JwtConfig jwtConfig(){
         return new JwtConfig();
     }

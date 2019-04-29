@@ -19,7 +19,7 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/oauth2?characterEncoding=utf8&useSSL=false")
+                .url("jdbc:mysql://localhost:63306/oauth2?characterEncoding=utf8&useSSL=false")
                 .driverClassName("com.mysql.cj.jdbc.Driver")
                 .username("root")
                 .password("syoka")

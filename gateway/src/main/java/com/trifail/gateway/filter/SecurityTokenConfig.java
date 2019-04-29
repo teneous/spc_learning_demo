@@ -2,7 +2,7 @@ package com.trifail.gateway.filter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.trifail.basis.common.JwtConfig;
+import com.trifail.gateway.config.JwtConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
