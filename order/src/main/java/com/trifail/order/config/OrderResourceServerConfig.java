@@ -12,6 +12,7 @@ public class OrderResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/order/*/**")
                 .hasRole("ADMIN")
+                .antMatchers("swagger-ui.html").permitAll()
                 .anyRequest()
                 .authenticated();
     }

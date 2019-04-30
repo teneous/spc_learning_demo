@@ -41,4 +41,19 @@ public class ExtraSrouceConfig {
 //    String redisSlavePort;
     @Value("${order.redis.password}")
     String redisPassword;
+
+    @Value("${swagger.api.title}")
+    String swaggerTitle;
+
+    @Value("${swagger.api.description}")
+    String swaggerDescription;
+
+    @Value("${swagger.api.termsOfServiceUrl}")
+    String swaggerTermsOfServiceUrl;
+
+    @Value("${swagger.api.version}")
+    String swaggerVersion;
+
+    @Value("${swagger.api.controller.basepackage}")
+    String swaggerBasePackage;
 }

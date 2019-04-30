@@ -1,16 +1,19 @@
 package com.trifail.order.service.impl;
 
+import com.trifail.basis.common.CommonIdVo;
 import com.trifail.basis.core.ErrorCode;
+import com.trifail.basis.core.RestPageRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
-import com.trifail.order.databean.OrderInfo;
 import com.trifail.order.config.RedisRepository;
+import com.trifail.order.databean.v1.V1OrderInfo;
 import com.trifail.order.model.Order;
 import com.trifail.order.repository.IOrderRepository;
 import com.trifail.order.service.IOrderService;
 import com.trifail.order.common.OrderConstant;
 import com.trifail.order.utils.SerializationUtils;
+import com.trifail.order.utils.SnowFlakeGenerator;
 import com.trifail.order.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +40,15 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public String createOrder(OrderInfo orderInfo) {
-        return null;
+    public RestResponseVo createOrder(V1OrderInfo orderInfo) {
+        long serino = SnowFlakeGenerator.getInstance().nextId();
+        return new RestResponseVo<>(serino + "");
     }
 
     @Override
-    public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(Long cid) {
+    public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(RestPageRequestVo<CommonIdVo> cInfo) {
+        String common_id = cInfo.getSearch_field().getCommon_id();
+        Long cid = Long.valueOf(common_id);
         byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(REDIS_ORDER + cid));
         if (bytes != null) {
             return new RestResponseVo<>((List<CustomerOrderInfo>) SerializationUtils.byteToObject(bytes));
@@ -61,7 +67,8 @@ public class OrderServiceImpl implements IOrderService {
                     SerializationUtils.objectToByte(customerInfo), 300);
             return new RestResponseVo<>(customerInfo);
         }
-        return new RestResponseVo<>(new ArrayList<>());
+//        return new RestResponseVo<>(new ArrayList<>());
+        return new RestResponseVo(OrderErrorcode.ORDER_NOT_EXISTS);
     }
 
 

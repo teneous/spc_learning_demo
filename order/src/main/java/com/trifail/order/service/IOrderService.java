@@ -4,7 +4,7 @@ import com.trifail.basis.common.CommonIdVo;
 import com.trifail.basis.core.RestPageRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.databean.CustomerOrderInfo;
-import com.trifail.order.databean.OrderInfo;
+import com.trifail.order.databean.v1.V1OrderInfo;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ public interface IOrderService {
      * 创建订单
      * @return 返回订单号
      */
-    String createOrder(OrderInfo orderInfo);
+    RestResponseVo createOrder(V1OrderInfo orderInfo);
 
 
     /**
-     * 创建订单
-     * create a order
-     * @return 返回订单号
+     * 获取顾客订单
+     * find specific order of the customer
+     * @return 返回顾客订单基础信息
      */
     RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(RestPageRequestVo<CommonIdVo> cInfo);
 

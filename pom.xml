@@ -28,6 +28,8 @@
         <jedis.version>2.9.1</jedis.version>
         <mysql.connector.version>8.0.13</mysql.connector.version>
         <jjwt.version>0.9.0</jjwt.version>
+        <swagger.version>2.9.1</swagger.version>
+
     </properties>
 
     <dependencyManagement>
