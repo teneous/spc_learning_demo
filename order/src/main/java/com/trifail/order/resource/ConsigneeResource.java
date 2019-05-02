@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by syoka on 2019/3/12.
  */
 @RestController
-@RequestMapping("/order/v1")
+@RequestMapping("/ConsigneeResource/v1")
 public class ConsigneeResource {
 
 }

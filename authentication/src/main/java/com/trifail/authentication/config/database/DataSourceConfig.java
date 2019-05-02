@@ -3,6 +3,7 @@
 
 package com.trifail.authentication.config.database;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +17,16 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
+    @Autowired
+    private ExtraSrouceConfig extraSrouceConfig;
+
     @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:63306/oauth2?characterEncoding=utf8&useSSL=false")
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .username("root")
-                .password("syoka")
+                .url(extraSrouceConfig.url)
+                .driverClassName(extraSrouceConfig.driver)
+                .username(extraSrouceConfig.username)
+                .password(extraSrouceConfig.password)
                 .build();
     }
 

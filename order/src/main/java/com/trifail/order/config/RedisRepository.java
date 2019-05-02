@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by syoka on 2019/3/26.
@@ -32,6 +33,15 @@ public class RedisRepository {
             LOGGER.info("[redisTemplate redis]放入 缓存  url:{} ========缓存时间为{}秒", key, time);
             return 1L;
         });
+    }
+
+    /**
+     * 跟新过期时间
+     * @param key
+     * @param second
+     */
+    public void refreshExpireTime(String key, long second) {
+        redisTemplate.expire(key, second, TimeUnit.SECONDS);
     }
 
     public void set(final byte[] key, final byte[] value) {

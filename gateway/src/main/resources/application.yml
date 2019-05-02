@@ -12,7 +12,8 @@ zuul:
   routes:
     ###按照顺序加载
     order: /order/**
-#    order: /order/**
     store: /store/**
+    gateway: /gateway/**
     authentication: /authentication/**
   sensitive-headers: Cookie,Set-Cookie
+#  strip-prefix: false

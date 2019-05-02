@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Api(value = "Order Api")
 @RestController
-@RequestMapping("/order/v1")
+@RequestMapping("/v1")
 public class OrderResource{
 
     private final IOrderService orderService;
@@ -38,10 +38,18 @@ public class OrderResource{
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 500, message = "System error")
     })
-    @PostMapping("/customer")
+    @PostMapping("/customer/list")
     public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrders(
-            @ApiParam(value = "顾客Id", required = true) @RequestBody RestRequestVo<RestPageRequestVo<CommonIdVo>> cInfo){
+//            @ApiParam(value = "顾客Id", required = true)
+            @RequestBody RestRequestVo<RestPageRequestVo<CommonIdVo>> cInfo){
         return orderService.getCustomerOrderList(cInfo.getRequest_data());
+    }
+
+
+    @GetMapping("/customer/1")
+    public RestResponseVo<List<CustomerOrderInfo>> getCustomeraOrders( ){
+        System.out.println(1);
+        return null;
     }
 
     /**

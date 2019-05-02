@@ -16,6 +16,8 @@ import com.trifail.order.utils.SerializationUtils;
 import com.trifail.order.utils.SnowFlakeGenerator;
 import com.trifail.order.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,7 +33,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private final IOrderRepository orderRepository;
     private final RedisRepository redisRepository;
-    private final String REDIS_ORDER = "order_of_cus_";
+
 
     @Autowired
     public OrderServiceImpl(IOrderRepository orderRepository, RedisRepository redisRepository) {
@@ -46,15 +48,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrderList(RestPageRequestVo<CommonIdVo> cInfo) {
-        String common_id = cInfo.getSearch_field().getCommon_id();
-        Long cid = Long.valueOf(common_id);
-        byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(REDIS_ORDER + cid));
+        String cid = cInfo.getSearch_field().getCommon_id();
+        if (cInfo.getSearch_field().getCommon_id() == null) {
+            return new RestResponseVo(OrderErrorcode.ORDER_NOT_EXISTS);
+        }
+        byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(OrderConstant.REDIS_ORDER + cid));
         if (bytes != null) {
+            redisRepository.refreshExpireTime(OrderConstant.REDIS_ORDER + cid,OrderConstant.THREE_HOUR);
             return new RestResponseVo<>((List<CustomerOrderInfo>) SerializationUtils.byteToObject(bytes));
         }
-        //这里只做一个demo不考虑分页
-        List<Order> orderList = orderRepository.findByCustomerId(cid);
+        List<Order> orderList = orderRepository.findByCustomerId(Long.valueOf(cid));
+        Page<Order> byCustomerId = orderRepository.findByCustomerId(PageRequest.of(1,1), Long.valueOf(cid));
+
         if (orderList.size() > 0) {
             List<CustomerOrderInfo> customerInfo = orderList.stream().map(order -> {
                 CustomerOrderInfo customerOrderInfo = new CustomerOrderInfo();
@@ -63,11 +70,11 @@ public class OrderServiceImpl implements IOrderService {
                 customerOrderInfo.setCreateTime(TimeUtils.normalFormatDate(order.getCreateTime()));
                 return customerOrderInfo;
             }).collect(Collectors.toList());
-            redisRepository.setExpire(SerializationUtils.objectToByte(REDIS_ORDER + cid),
-                    SerializationUtils.objectToByte(customerInfo), 300);
+            //写入缓存 3hour
+            redisRepository.setExpire(SerializationUtils.objectToByte(OrderConstant.REDIS_ORDER + cid),
+                    SerializationUtils.objectToByte(customerInfo), OrderConstant.THREE_HOUR);
             return new RestResponseVo<>(customerInfo);
         }
-//        return new RestResponseVo<>(new ArrayList<>());
         return new RestResponseVo(OrderErrorcode.ORDER_NOT_EXISTS);
     }
 
