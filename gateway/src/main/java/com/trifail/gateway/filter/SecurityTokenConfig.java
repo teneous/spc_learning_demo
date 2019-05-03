@@ -26,7 +26,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/oauth/token").permitAll()
                 .antMatchers("/order/**").hasRole("ADMIN")
-                .antMatchers("/store/**").hasRole("ADMIN")
+                .antMatchers("/stock/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
 

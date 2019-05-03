@@ -1,10 +1,10 @@
 spring:
   application:
     name:
-      store
-cloud:
-  config:
-    uri: http://localhost:8889/
+      stock
+  cloud:
+    config:
+      uri: http://localhost:8889/
 
 ###此处解密钥匙需要与config端一致
 encrypt:

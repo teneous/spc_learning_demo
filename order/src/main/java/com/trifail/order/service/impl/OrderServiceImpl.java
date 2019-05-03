@@ -160,7 +160,7 @@ public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderServ
      * 检查订单
      */
     private ErrorCode checkOrderWhenCreated(V1OrderInfo orderInfo) {
-        if (orderInfo.getGoods() != null && orderInfo.getGoods().size() > 0) {
+        if (orderInfo.getGoods() == null || orderInfo.getGoods().size() == 0) {
             return OrderErrorcode.ORDER_WITH_NO_PRODUCTS;
         }
         apiStockService.checkGoodsWithStock(orderInfo.getGoods());

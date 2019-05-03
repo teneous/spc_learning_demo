@@ -1,4 +1,4 @@
-package com.trifail.store
+package com.trifail.stock
 
 import org.junit.Test
 import org.junit.runner.RunWith

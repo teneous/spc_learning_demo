@@ -50,7 +50,7 @@ public class OrderResource{
      * 生成订单
      */
     @ApiOperation(value = "创建订单", response = String.class)
-    @PostMapping("/")
+    @PostMapping("")
     public RestResponseVo createANewOrder(
             @ApiParam(value = "订单基本详细信息", required = true)@RequestBody RestRequestVo<V1OrderInfo> orderInfo){
         return orderService.createOrder(orderInfo.getRequest_data());
