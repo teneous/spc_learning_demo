@@ -5,13 +5,14 @@ import com.trifail.basis.core.RestPageRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.databean.v1.V1OrderInfo;
+import com.trifail.order.service.base.IOrderBaseService;
 
 import java.util.List;
 
 /**
  * Created by syoka on 2019/3/11.
  */
-public interface IOrderService {
+public interface IOrderService extends IOrderBaseService {
 
     /**
      * 创建订单

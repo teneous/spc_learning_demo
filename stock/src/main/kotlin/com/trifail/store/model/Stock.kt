@@ -1,4 +1,4 @@
-package com.trifail.store.module
+package com.trifail.store.model
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -6,8 +6,8 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "store")
-class Store{
+@Table(name = "stock")
+class Stock{
 
     @Id
     var id: Long = 0

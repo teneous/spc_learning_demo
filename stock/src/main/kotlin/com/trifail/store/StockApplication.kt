@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class StoreApplication
+class StockApplication
 
 fun main(args: Array<String>) {
-    runApplication<StoreApplication>(*args)
+    runApplication<StockApplication>(*args)
 }

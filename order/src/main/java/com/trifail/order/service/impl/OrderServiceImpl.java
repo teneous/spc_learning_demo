@@ -1,5 +1,6 @@
 package com.trifail.order.service.impl;
 
+import com.trifail.basis.api.databean.V1PaymentInfo;
 import com.trifail.basis.common.CommonIdVo;
 import com.trifail.basis.core.ErrorCode;
 import com.trifail.basis.core.RestPageRequestVo;
@@ -7,44 +8,69 @@ import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.config.RedisRepository;
+import com.trifail.order.databean.v1.V1OrderGoodsInfo;
 import com.trifail.order.databean.v1.V1OrderInfo;
+import com.trifail.order.databean.v1.V1OrderReceiverInfo;
+import com.trifail.order.feign.ApiStockService;
 import com.trifail.order.model.Order;
 import com.trifail.order.repository.IOrderRepository;
 import com.trifail.order.service.IOrderService;
 import com.trifail.order.common.OrderConstant;
+import com.trifail.order.service.base.impl.OrderBaseServiceImpl;
 import com.trifail.order.utils.SerializationUtils;
 import com.trifail.order.utils.SnowFlakeGenerator;
 import com.trifail.order.utils.TimeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Created by syoka on 2019/3/11.
  */
 @Service
-public class OrderServiceImpl implements IOrderService {
-
-    private final IOrderRepository orderRepository;
-    private final RedisRepository redisRepository;
-
+public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderService {
 
     @Autowired
-    public OrderServiceImpl(IOrderRepository orderRepository, RedisRepository redisRepository) {
-        this.orderRepository = orderRepository;
-        this.redisRepository = redisRepository;
-    }
+    private IOrderRepository orderRepository;
+    @Autowired
+    private RedisRepository redisRepository;
+    @Autowired(required = false)
+    private ApiStockService apiStockService;
 
     @Override
     public RestResponseVo createOrder(V1OrderInfo orderInfo) {
-        long serino = SnowFlakeGenerator.getInstance().nextId();
-        return new RestResponseVo<>(serino + "");
+        //校验数据
+        ErrorCode errorCode = checkOrderWhenCreated(orderInfo);
+        if (errorCode != null) {
+            return new RestResponseVo(errorCode);
+        }
+        BigDecimal realPay = orderInfo.getPayMoney()
+                .stream()
+                .map(V1PaymentInfo::getPaymoney)
+                .reduce((e1, e2) -> (e1.add(e2))).orElse(BigDecimal.ZERO);
+        BigDecimal orderMoney = orderInfo.getGoods()
+                .stream().map(e -> e.getPrice().multiply(BigDecimal.valueOf(e.getNumber())))
+                .reduce((e1, e2) -> (e1.add(e2))).orElse(BigDecimal.ZERO);
+
+        Order order = createNewOrder();
+        order.setRealPayMoney(realPay);
+        order.setCustomerId(Long.valueOf(orderInfo.getCid()));
+        order.setOrderMoney(orderMoney);
+        //收货人
+        V1OrderReceiverInfo receiver = orderInfo.getReceiver();
+        order.setReceiverName(receiver.getReceiverName());
+        order.setReceiverAddr(receiver.getReceiverAddr());
+        order.setReceiverPhone(receiver.getReceiverPhone());
+        orderRepository.save(order);
+        return new RestResponseVo<>(order.getSerialNo());
     }
 
     @Override
@@ -56,11 +82,12 @@ public class OrderServiceImpl implements IOrderService {
         }
         byte[] bytes = redisRepository.get(SerializationUtils.objectToByte(OrderConstant.REDIS_ORDER + cid));
         if (bytes != null) {
-            redisRepository.refreshExpireTime(OrderConstant.REDIS_ORDER + cid,OrderConstant.THREE_HOUR);
+            redisRepository.refreshExpireTime(OrderConstant.REDIS_ORDER + cid, OrderConstant.THREE_HOUR);
             return new RestResponseVo<>((List<CustomerOrderInfo>) SerializationUtils.byteToObject(bytes));
         }
-        List<Order> orderList = orderRepository.findByCustomerId(Long.valueOf(cid));
-        Page<Order> byCustomerId = orderRepository.findByCustomerId(PageRequest.of(1,1), Long.valueOf(cid));
+        PageRequest pageRequest = pageConvertor(cInfo);
+        Page<Order> orderPage = orderRepository.selectAllByCustomerId(Long.valueOf(cid), pageRequest);
+        List<Order> orderList = orderPage.getContent();
 
         if (orderList.size() > 0) {
             List<CustomerOrderInfo> customerInfo = orderList.stream().map(order -> {
@@ -93,7 +120,26 @@ public class OrderServiceImpl implements IOrderService {
         return new RestResponseVo(errorCode);
     }
 
+    /**
+     * 生成一个订单
+     *
+     * @return 新订单
+     */
+    private Order createNewOrder() {
+        Order order = new Order();
+        //生成订单编号
+        long serino = SnowFlakeGenerator.getInstance().nextId();
+        LocalDate now = LocalDate.now();
+        order.setCreateTime(now);
+        order.setType(OrderConstant.WAIT_PAID);
+        order.setSerialNo(serino + "");
+        return order;
+    }
 
+
+    /**
+     * 检查的订单号的有效性
+     */
     private ErrorCode validate(String serialno) {
         if (serialno != null) {
             Order order = orderRepository.findByserialNo(serialno);
@@ -107,5 +153,28 @@ public class OrderServiceImpl implements IOrderService {
             return OrderErrorcode.ORDER_NOT_EXISTS;
         }
         return OrderErrorcode.ORDER_NOT_EXISTS;
+    }
+
+
+    /**
+     * 检查订单
+     */
+    private ErrorCode checkOrderWhenCreated(V1OrderInfo orderInfo) {
+        if (orderInfo.getGoods() != null && orderInfo.getGoods().size() > 0) {
+            return OrderErrorcode.ORDER_WITH_NO_PRODUCTS;
+        }
+        apiStockService.checkGoodsWithStock(orderInfo.getGoods());
+        if (orderInfo.getReceiver() != null) {
+            if (StringUtils.isEmpty(orderInfo.getReceiver().getReceiverPhone())) {
+                return OrderErrorcode.ORDER_WITH_RECEIVER_NO_PHONE;
+            }
+            if (StringUtils.isEmpty(orderInfo.getReceiver().getReceiverAddr())) {
+                return OrderErrorcode.ORDER_WITH_RECEIVER_NO_ADDR;
+            }
+            if (StringUtils.isEmpty(orderInfo.getReceiver().getReceiverName())) {
+                return OrderErrorcode.ORDER_WITH_RECEIVER_NO_NAME;
+            }
+        }
+        return null;
     }
 }

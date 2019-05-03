@@ -40,34 +40,29 @@ public class OrderResource{
     })
     @PostMapping("/customer/list")
     public RestResponseVo<List<CustomerOrderInfo>> getCustomerOrders(
-//            @ApiParam(value = "顾客Id", required = true)
+            @ApiParam(value = "顾客Id", required = true)
             @RequestBody RestRequestVo<RestPageRequestVo<CommonIdVo>> cInfo){
         return orderService.getCustomerOrderList(cInfo.getRequest_data());
     }
 
-
-    @GetMapping("/customer/1")
-    public RestResponseVo<List<CustomerOrderInfo>> getCustomeraOrders( ){
-        System.out.println(1);
-        return null;
-    }
 
     /**
      * 生成订单
      */
     @ApiOperation(value = "创建订单", response = String.class)
     @PostMapping("/")
-    public RestResponseVo createOrder(
+    public RestResponseVo createANewOrder(
             @ApiParam(value = "订单基本详细信息", required = true)@RequestBody RestRequestVo<V1OrderInfo> orderInfo){
         return orderService.createOrder(orderInfo.getRequest_data());
     }
 
     /**
-     * 订单回滚
+     * 订单撤销
      */
-    @ApiOperation(value = "cancel the order", response = String.class)
-    @DeleteMapping("/rollback/{serialno}")
+    @ApiOperation(value = "订单取消")
+    @PutMapping("/rollback/{serialno}")
     public RestResponseVo rollbackOrder(@PathVariable String serialno){
+        //如果尚未发货则可以直接撤销
         return new RestResponseVo(OrderErrorcode.ORDER_NOT_EXISTS);
    }
 

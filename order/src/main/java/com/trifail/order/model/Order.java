@@ -37,6 +37,12 @@ public class Order {
     private BigDecimal orderMoney;
     @Column(name = "real_pay_money", length = 11, nullable = false)
     private BigDecimal realPayMoney;
+    @Column(name = "receiver_name", length = 255, nullable = false)
+    private String receiverName;
+    @Column(name = "receiver_addr", length = 255, nullable = false)
+    private String receiverAddr;
+    @Column(name = "receiver_phone", length = 255, nullable = false)
+    private String receiverPhone;
 
     public Long getId() {
         return id;
@@ -100,5 +106,29 @@ public class Order {
 
     public void setRealPayMoney(BigDecimal realPayMoney) {
         this.realPayMoney = realPayMoney;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverAddr() {
+        return receiverAddr;
+    }
+
+    public void setReceiverAddr(String receiverAddr) {
+        this.receiverAddr = receiverAddr;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 }
