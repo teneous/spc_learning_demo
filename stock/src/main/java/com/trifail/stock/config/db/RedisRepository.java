@@ -1,14 +1,11 @@
-package com.trifail.order.config;
+package com.trifail.stock.config.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**

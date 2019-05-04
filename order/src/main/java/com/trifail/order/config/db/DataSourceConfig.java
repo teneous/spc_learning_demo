@@ -1,4 +1,4 @@
-package com.trifail.stock.config;
+package com.trifail.order.config.db;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -22,9 +23,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.trifail.stock.repository")
+@EnableJpaRepositories(basePackages = "com.trifail.order.repository")
 public class DataSourceConfig {
-
 
     @Autowired
     private ExtraSrouceConfig extraSrouceConfig;
@@ -63,7 +63,7 @@ public class DataSourceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(mysqlDataSource());
-        factory.setPackagesToScan("com.trifail.stock.model");
+        factory.setPackagesToScan("com.trifail.order.model");
         //hibernate jpa
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         //customized proeprties
@@ -80,13 +80,14 @@ public class DataSourceConfig {
     /**
      * 数据库是否初始化
      */
-//    @Bean
-//    public DataSourceInitializer dataSourceInitializer() {
-//        DataSourceInitializer dsInitializer = new DataSourceInitializer();
-//        dsInitializer.setDataSource(mysqlDataSource());
-//        ResourceDatabasePopulator dbPopulator = new ResourceDatabasePopulator();
-//        dsInitializer.setDatabasePopulator(dbPopulator);
-//        dsInitializer.setEnabled(extraSrouceConfig.initialized);
-//        return dsInitializer;
-//    }
+    @Bean
+    public DataSourceInitializer dataSourceInitializer() {
+        DataSourceInitializer dsInitializer = new DataSourceInitializer();
+        dsInitializer.setDataSource(mysqlDataSource());
+        ResourceDatabasePopulator dbPopulator = new ResourceDatabasePopulator();
+        dbPopulator.addScript(new ClassPathResource("order_initialization.sql"));
+        dsInitializer.setDatabasePopulator(dbPopulator);
+        dsInitializer.setEnabled(extraSrouceConfig.initialized);
+        return dsInitializer;
+    }
 }

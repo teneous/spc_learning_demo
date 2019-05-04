@@ -1,5 +1,6 @@
 package com.trifail.order.config;
 
+import com.trifail.order.config.db.ExtraSrouceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -5,8 +5,6 @@ import com.trifail.order.repository.IOrderRepository;
 
 public class OrderErrorcode extends ErrorCode {
 
-    private static IOrderRepository orderRepository;
-
     public OrderErrorcode(String code, String message) {
         super(code, message);
     }

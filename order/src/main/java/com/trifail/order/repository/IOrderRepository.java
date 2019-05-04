@@ -17,10 +17,9 @@ import java.util.List;
 @Repository
 public interface IOrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findByCustomerId(Long cid);
 
     @Query("select o from Order o where o.customerId = :cid")
-    Page<Order> selectAllByCustomerId(@Param("cid") Long cid, Pageable  pageRequest);
+    Page<Order> selectAllByCustomerId(@Param("cid") Long cid, Pageable pageRequest);
 
     Order findByserialNo(String serialNo);
 }

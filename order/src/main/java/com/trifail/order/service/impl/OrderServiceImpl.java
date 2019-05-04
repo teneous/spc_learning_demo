@@ -7,8 +7,8 @@ import com.trifail.basis.core.RestPageRequestVo;
 import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
-import com.trifail.order.config.RedisRepository;
-import com.trifail.order.databean.v1.V1OrderGoodsInfo;
+import com.trifail.order.config.db.RedisRepository;
+import com.trifail.order.databean.api.V1GoodWrapper;
 import com.trifail.order.databean.v1.V1OrderInfo;
 import com.trifail.order.databean.v1.V1OrderReceiverInfo;
 import com.trifail.order.feign.ApiStockService;
@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -70,6 +69,8 @@ public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderServ
         order.setReceiverAddr(receiver.getReceiverAddr());
         order.setReceiverPhone(receiver.getReceiverPhone());
         orderRepository.save(order);
+        //下单成功后,调用库存接口出库接口
+        apiStockService.deliverGoods(new V1GoodWrapper(orderInfo.getGoods()));
         return new RestResponseVo<>(order.getSerialNo());
     }
 
@@ -163,7 +164,7 @@ public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderServ
         if (orderInfo.getGoods() == null || orderInfo.getGoods().size() == 0) {
             return OrderErrorcode.ORDER_WITH_NO_PRODUCTS;
         }
-        apiStockService.checkGoodsWithStock(orderInfo.getGoods());
+        apiStockService.checkGoodsWithStock(new V1GoodWrapper(orderInfo.getGoods()));
         if (orderInfo.getReceiver() != null) {
             if (StringUtils.isEmpty(orderInfo.getReceiver().getReceiverPhone())) {
                 return OrderErrorcode.ORDER_WITH_RECEIVER_NO_PHONE;

@@ -1,4 +1,4 @@
-package com.trifail.order.config;
+package com.trifail.order.config.db;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
