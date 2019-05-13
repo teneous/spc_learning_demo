@@ -1,6 +1,4 @@
-package com.trifail.order.databean.api;
-
-import com.trifail.order.databean.v1.V1OrderGoodsInfo;
+package model;
 
 import java.util.List;
 

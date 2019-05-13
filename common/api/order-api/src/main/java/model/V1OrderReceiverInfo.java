@@ -1,4 +1,4 @@
-package com.trifail.order.databean.v1;
+package model;
 
 /**
  * 收货人

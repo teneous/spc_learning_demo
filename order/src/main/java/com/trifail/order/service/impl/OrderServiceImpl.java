@@ -1,17 +1,11 @@
 package com.trifail.order.service.impl;
 
-import com.trifail.basis.api.databean.V1PaymentInfo;
-import com.trifail.basis.common.CommonIdVo;
-import com.trifail.basis.core.ErrorCode;
-import com.trifail.basis.core.RestPageRequestVo;
-import com.trifail.basis.core.RestResponseVo;
+
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
 import com.trifail.order.config.db.RedisRepository;
-import com.trifail.order.databean.api.V1GoodWrapper;
-import com.trifail.order.databean.v1.V1OrderInfo;
-import com.trifail.order.databean.v1.V1OrderReceiverInfo;
-import com.trifail.order.feign.ApiStockService;
+
+import com.trifail.order.feign.StockServiceFeign;
 import com.trifail.order.model.Order;
 import com.trifail.order.repository.IOrderRepository;
 import com.trifail.order.service.IOrderService;
@@ -20,6 +14,14 @@ import com.trifail.order.service.base.impl.OrderBaseServiceImpl;
 import com.trifail.order.utils.SerializationUtils;
 import com.trifail.order.utils.SnowFlakeGenerator;
 import com.trifail.order.utils.TimeUtils;
+import com.trifail.protocol.common.CommonIdVo;
+import com.trifail.protocol.core.ErrorCode;
+import com.trifail.protocol.core.RestPageRequestVo;
+import com.trifail.protocol.core.RestResponseVo;
+import model.V1GoodWrapper;
+import model.V1OrderInfo;
+import model.V1OrderReceiverInfo;
+import model.V1PaymentInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +44,7 @@ public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderServ
     @Autowired
     private RedisRepository redisRepository;
     @Autowired(required = false)
-    private ApiStockService apiStockService;
+    private StockServiceFeign apiStockService;
 
     @Override
     public RestResponseVo createOrder(V1OrderInfo orderInfo) {
@@ -164,7 +166,7 @@ public class OrderServiceImpl extends OrderBaseServiceImpl implements IOrderServ
         if (orderInfo.getGoods() == null || orderInfo.getGoods().size() == 0) {
             return OrderErrorcode.ORDER_WITH_NO_PRODUCTS;
         }
-        apiStockService.checkGoodsWithStock(new V1GoodWrapper(orderInfo.getGoods()));
+        ErrorCode errorCode = apiStockService.checkGoodsWithStock(new V1GoodWrapper(orderInfo.getGoods()));
         if (orderInfo.getReceiver() != null) {
             if (StringUtils.isEmpty(orderInfo.getReceiver().getReceiverPhone())) {
                 return OrderErrorcode.ORDER_WITH_RECEIVER_NO_PHONE;

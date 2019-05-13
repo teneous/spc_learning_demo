@@ -1,14 +1,14 @@
 package com.trifail.order.resource;
 
-import com.trifail.basis.common.CommonIdVo;
-import com.trifail.basis.core.RestPageRequestVo;
-import com.trifail.basis.core.RestRequestVo;
-import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.common.OrderErrorcode;
 import com.trifail.order.databean.CustomerOrderInfo;
-import com.trifail.order.databean.v1.V1OrderInfo;
 import com.trifail.order.service.IOrderService;
+import com.trifail.protocol.common.CommonIdVo;
+import com.trifail.protocol.core.RestPageRequestVo;
+import com.trifail.protocol.core.RestRequestVo;
+import com.trifail.protocol.core.RestResponseVo;
 import io.swagger.annotations.*;
+import model.V1OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

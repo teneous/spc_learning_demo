@@ -1,7 +1,6 @@
 package com.trifail.order.common;
 
-import com.trifail.basis.core.ErrorCode;
-import com.trifail.order.repository.IOrderRepository;
+import com.trifail.protocol.core.ErrorCode;
 
 public class OrderErrorcode extends ErrorCode {
 

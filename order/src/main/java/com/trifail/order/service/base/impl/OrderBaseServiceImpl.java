@@ -1,8 +1,8 @@
 package com.trifail.order.service.base.impl;
 
-import com.trifail.basis.core.RestPageRequestVo;
-import com.trifail.basis.service.impl.V1BaseServiceImpl;
 import com.trifail.order.service.base.IOrderBaseService;
+import com.trifail.protocol.core.RestPageRequestVo;
+import com.trifail.protocol.service.impl.V1BaseServiceImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 

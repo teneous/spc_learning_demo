@@ -1,4 +1,4 @@
-package com.trifail.order.databean.v1;
+package model;
 
 import io.swagger.annotations.ApiModelProperty;
 

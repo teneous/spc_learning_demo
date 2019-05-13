@@ -1,6 +1,5 @@
-package com.trifail.order.databean.v1;
+package model;
 
-import com.trifail.basis.api.databean.V1PaymentInfo;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;

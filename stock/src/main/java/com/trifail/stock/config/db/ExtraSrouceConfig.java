@@ -36,8 +36,8 @@ public class ExtraSrouceConfig {
     String redisMasterPort;
     //    @Value("${stock.redis.salve.ip}")
 //    public String redisSlaveIp;
-    @Value("${stock.redis.salve.port}")
-    public String redisSlavePort;
+//    @Value("${stock.redis.salve.port}")
+//    public String redisSlavePort;
     @Value("${stock.redis.password}")
     public String redisPassword;
 

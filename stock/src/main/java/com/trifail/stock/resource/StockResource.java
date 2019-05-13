@@ -1,20 +1,17 @@
 package com.trifail.stock.resource;
 
-import com.trifail.basis.core.ErrorCode;
-import com.trifail.stock.databean.V1GoodsWrapper;
+import com.trifail.protocol.core.ErrorCode;
+import com.trifail.stock.common.StockErrorCode;
 import com.trifail.stock.service.IGoodsService;
-import io.swagger.annotations.ApiOperation;
+import model.V1GoodWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import service.ApiStockService;
 
 
 @RestController
-@RequestMapping("/v1")
-public class StockResource {
+public class StockResource implements ApiStockService {
 
     private final IGoodsService goodsService;
 
@@ -23,21 +20,15 @@ public class StockResource {
         this.goodsService = goodsService;
     }
 
-    /**
-     * 内部模块调用
-     * @param goodsInfo
-     * @return
-     */
-    @ApiOperation(value = "库存商品校验", response = String.class)
-    @PostMapping("/validation")
-    public ErrorCode goodsValidation(@RequestBody V1GoodsWrapper goodsInfo){
-        return goodsService.checkGoodsStocks(goodsInfo);
+
+    @Override
+    public ErrorCode checkGoodsWithStock(@RequestBody V1GoodWrapper goodsInfo) {
+        System.out.println("chenggong");
+        return StockErrorCode.GOODS_NOT_EXISTS;
     }
 
-    @ApiOperation(value = "商品出库", response = String.class)
-    @PostMapping("/delivergoods")
-    boolean deliverGoods(@RequestBody V1GoodsWrapper goodsInfo){
-        return true;
+    @Override
+    public boolean deliverGoods(@RequestBody V1GoodWrapper goodsInfo) {
+        return false;
     }
-
 }

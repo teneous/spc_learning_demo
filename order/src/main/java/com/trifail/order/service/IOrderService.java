@@ -1,11 +1,11 @@
 package com.trifail.order.service;
 
-import com.trifail.basis.common.CommonIdVo;
-import com.trifail.basis.core.RestPageRequestVo;
-import com.trifail.basis.core.RestResponseVo;
 import com.trifail.order.databean.CustomerOrderInfo;
-import com.trifail.order.databean.v1.V1OrderInfo;
 import com.trifail.order.service.base.IOrderBaseService;
+import com.trifail.protocol.common.CommonIdVo;
+import com.trifail.protocol.core.RestPageRequestVo;
+import com.trifail.protocol.core.RestResponseVo;
+import model.V1OrderInfo;
 
 import java.util.List;
 
