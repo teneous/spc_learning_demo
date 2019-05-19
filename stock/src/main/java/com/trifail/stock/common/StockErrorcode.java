@@ -1,14 +1,14 @@
 package com.trifail.stock.common;
 
-import com.trifail.basis.core.ErrorCode;
+import com.trifail.protocol.core.ErrorCode;
 
-public class StockErrorcode extends ErrorCode {
+public class StockErrorCode extends ErrorCode {
     
 
-    public StockErrorcode(String code, String message) {
+    public StockErrorCode(String code, String message) {
         super(code, message);
     }
 
-    public static StockErrorcode GOODS_NOT_EXISTS = new StockErrorcode("01[GOODSNOT_EXISTS]","stock.error.goods.not.exists");
+    public static StockErrorCode GOODS_NOT_EXISTS = new StockErrorCode("01[GOODSNOT_EXISTS]","stock.error.goods.not.exists");
 
 }

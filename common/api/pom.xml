@@ -7,12 +7,12 @@
         <groupId>com.trifail</groupId>
         <artifactId>common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../pom.xml</relativePath>
     </parent>
+
     <artifactId>api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>api</name>
-    <description>Demo project for Spring Boot</description>
 
     <modules>
         <module>order-api</module>
